@@ -107,7 +107,7 @@ public class Exp3_S6_Santiago_Vivanco {
     // --- Método Principal ---
     public static void main(String[] args) {
         Exp3_S6_Santiago_Vivanco teatro = new Exp3_S6_Santiago_Vivanco();
-        teatro.iniciarSistema();
+        teatro.iniciarSistema();//breackpoint
         teatro.cerrarScanner();
     }
 
@@ -116,7 +116,7 @@ public class Exp3_S6_Santiago_Vivanco {
         System.out.println("Bienvenido al Sistema de Reservas y Ventas del Teatro");
         boolean seguirSistema = true;
         while (seguirSistema) {
-            mostrarMenuPrincipal();
+            mostrarMenuPrincipal();//breakpoint
             int opcion = leerOpcionNumerica(1, 5); // 5 opciones 
             switch (opcion) {
                 case 1 -> reservarEntradas();
@@ -151,7 +151,7 @@ public class Exp3_S6_Santiago_Vivanco {
 
     private void mostrarMapaAsientos() {
         limpiarPantalla();
-        System.out.println("--- Mapa de Asientos --- (D=Disponible, R=Reservado, V=Vendido)");
+        System.out.println("--- Mapa de Asientos --- (D=Disponible, R=Reservado, V=Vendido)");//breakpoint
         // Itera sobre el layout definido para mostrar en orden
         layoutTeatro.forEach((seccion, dims) -> {
             System.out.println("\n--- Sección " + seccion + " (Precio Base: $" + preciosPorSeccion.get(seccion) + ") ---");
@@ -179,7 +179,7 @@ public class Exp3_S6_Santiago_Vivanco {
     private List<String> seleccionarAsientosDisponibles() {
         List<String> asientosSeleccionados = new ArrayList<>();
         boolean seguirSeleccionando = true;
-        while (seguirSeleccionando) {
+        while (seguirSeleccionando) {// breakpoint
             System.out.print("Ingrese ID de asiento (ej. A1-5) o 'fin' para terminar: ");
             String input = sc.nextLine().toUpperCase().trim();
             if (input.equals("FIN")) {
@@ -220,7 +220,7 @@ public class Exp3_S6_Santiago_Vivanco {
     }
 
     private int calcularPrecioTotal(List<String> asientos, String tipoCliente) {
-        int precioBruto = 0;
+        int precioBruto = 0;// breakpoint
         for (String idAsiento : asientos) {
             precioBruto += calcularPrecioAsiento(idAsiento);
         }
@@ -249,7 +249,7 @@ public class Exp3_S6_Santiago_Vivanco {
 
 
     private void reservarEntradas() {
-        mostrarMapaAsientos();
+        mostrarMapaAsientos();// breakpoint
         System.out.println("\n--- Nueva Reserva ---");
         List<String> asientos = seleccionarAsientosDisponibles();
 
@@ -259,7 +259,7 @@ public class Exp3_S6_Santiago_Vivanco {
         }
 
         String tipoCliente = seleccionarTipoCliente();
-        int precioTotal = calcularPrecioTotal(asientos, tipoCliente);
+        int precioTotal = calcularPrecioTotal(asientos, tipoCliente);// breakpoint
 
         // Cambiar estado en el mapa y crear transacción
         for (String idAsiento : asientos) {
@@ -309,7 +309,7 @@ public class Exp3_S6_Santiago_Vivanco {
 
         // Cambiar estado a "Vendido" y crear transacción
         for (String idAsiento : asientos) {
-            mapaAsientos.put(idAsiento, "Vendido");
+            mapaAsientos.put(idAsiento, "Vendido");// breakpoint
         }
         Transaccion nuevaVenta = new Transaccion(asientos, "Vendida", tipoCliente, precioTotal);
         listaTransacciones.add(nuevaVenta);
@@ -343,7 +343,7 @@ public class Exp3_S6_Santiago_Vivanco {
                     // Verifica el estado actual del asiento en el mapa principal
                     if (mapaAsientos.containsKey(idAsiento) && mapaAsientos.get(idAsiento).equals("Reservado")) {
                         
-                        mapaAsientos.put(idAsiento, "Vendido");
+                        mapaAsientos.put(idAsiento, "Vendido");// breakpoint
                         
                         asientosCambiadosEnEsteIntento.add(idAsiento);
                     } else {
@@ -359,7 +359,7 @@ public class Exp3_S6_Santiago_Vivanco {
                         System.out.println("\n--- Iniciando Reversión Automática ---");
                         if (!asientosCambiadosEnEsteIntento.isEmpty()) {
                             for (String asientoARevertir : asientosCambiadosEnEsteIntento) {
-                                mapaAsientos.put(asientoARevertir, "Reservado"); // Devolver a Reservado
+                                mapaAsientos.put(asientoARevertir, "Reservado"); // breakpoint
                                 System.out.println("   - Asiento [" + asientoARevertir + "] devuelto a estado 'Reservado'.");
                             }
                             System.out.println("--- Reversión Completada ---");
@@ -440,7 +440,7 @@ public class Exp3_S6_Santiago_Vivanco {
             for (String idAsiento : tx.getAsientos()) {
                 mapaAsientos.put(idAsiento, "Disponible"); // Volver a disponible
             }
-            listaTransacciones.remove(tx);
+            listaTransacciones.remove(tx);// breakpoint
             System.out.println("Reserva ID " + idTransaccion + " cancelada. Asientos liberados.");
 
         } else if (opcion == 2) { // Eliminar Compra
@@ -460,7 +460,7 @@ public class Exp3_S6_Santiago_Vivanco {
         }
     }
 
-    // --- b) Generación de Boletas ---
+    // --- Generación de Boletas ---
 
     private void imprimirBoleta() {
         limpiarPantalla();
@@ -468,7 +468,7 @@ public class Exp3_S6_Santiago_Vivanco {
         System.out.print("Ingrese el ID de la transacción (Reserva o Compra): ");
         int idTransaccion = leerEntero();
 
-        Optional<Transaccion> transaccionOpt = buscarTransaccionPorId(idTransaccion);
+        Optional<Transaccion> transaccionOpt = buscarTransaccionPorId(idTransaccion);// breakpoint
 
         if (transaccionOpt.isPresent()) {
             Transaccion tx = transaccionOpt.get();
@@ -482,7 +482,7 @@ public class Exp3_S6_Santiago_Vivanco {
                 System.out.println("   - " + idAsiento + " (Sección " + seccion + ", Precio Base: $" + calcularPrecioAsiento(idAsiento) + ")");
             }
             System.out.println("--------------------------------------");
-            System.out.println(" Descuento Aplicado: " + tx.getTipoCliente()); // Podría calcularse el % aquí
+            System.out.println(" Descuento Aplicado: " + tx.getTipoCliente()); 
             System.out.println(" PRECIO TOTAL:      $" + tx.getPrecioTotalCalculado());
             System.out.println("======================================");
             if (tx.getStatus().equals("Reservada")) {
